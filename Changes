@@ -1,5 +1,9 @@
 Revision history for Perl extension App::watcher
 
+0.03
+
+    - rewrite code...
+
 0.02
 
     - fix path
