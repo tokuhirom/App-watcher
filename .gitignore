@@ -10,3 +10,5 @@ _build/
 xshelper.h
 tags
 META.yml
+blib/
+pm_to_blib

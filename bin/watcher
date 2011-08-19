@@ -25,16 +25,54 @@ sub info {
     print "[$time] ", join(' ', @_), "\n";
 }
 
+my $pid;
+
+sub fork_and_start {
+    my ( $server ) = @_;
+
+    undef $pid;
+    $pid = fork;
+    die "Can't fork: $!" unless defined $pid;
+
+    if ( $pid == 0 ) {      # child
+        exec @ARGV;
+        die "Cannot exec: @ARGV";
+    }
+}
+
+sub kill_pid {
+    $pid or return;
+
+    info("Killing the existing server (pid:$pid)");
+
+    kill 'TERM' => $pid;
+    waitpid( $pid, 0 );
+}
+
 info("watching: @dir");
+fork_and_start();
+return unless $pid;
+
 my $watcher = Filesys::Notify::Simple->new(\@dir);
 while(1) {
+    my @restart;
     $watcher->wait(sub {
-        info("-- $_->{path}") for @_;
-
-        if (system(@ARGV)!=0) {
-            print "error: $!\n";
-        }
+        my @events = @_;
+           @events = grep { valid_file($_) } map { $_->{path} } @events;
+        @restart = @events;
     });
+    next unless @restart;
+
+    info("-- $_") for @restart;
+    kill_pid();
+    info("Successfully killed! Restarting the new server process.");
+    fork_and_start();
+    exit(0) unless $pid;
+}
+
+sub valid_file {
+    my ($file) = @_;
+    $file !~ m![/\\][\._]|\.bak$|~$|_flymake\.p[lm]!;
 }
 
 __END__
