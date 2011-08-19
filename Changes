@@ -1,4 +1,8 @@
 Revision history for Perl extension App::watcher
 
+0.02
+
+    - fix path
+
 0.01    Fri Aug 19 18:48:44 2011
     - original version
