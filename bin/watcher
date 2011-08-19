@@ -1,0 +1,73 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use Getopt::Long;
+use Filesys::Notify::Simple;
+use Pod::Usage;
+
+my @dir;
+GetOptions(
+    'dir=s@' => \@dir,
+    'h|help' => \my $help,
+) or pod2usage;
+pod2usage(1) if $help;
+@dir = ('.') unless @dir;
+
+sub info {
+    my ( $sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst ) =
+        localtime(time);
+    my $time = sprintf(
+        "%04d-%02d-%02dT%02d:%02d:%02d",
+        $year + 1900,
+        $mon + 1, $mday, $hour, $min, $sec
+    );
+
+    print "[$time] ", join(' ', @_), "\n";
+}
+
+info("watching: @dir");
+my $watcher = Filesys::Notify::Simple->new(\@dir);
+while(1) {
+    $watcher->wait(sub {
+        info("-- $_->{path}") for @_;
+
+        if (system(@ARGV)!=0) {
+            print "error: $!\n";
+        }
+    });
+}
+
+__END__
+
+=encoding utf8
+
+=head1 NAME
+
+watcher - watch the file updates
+
+=head1 SYNOPSIS
+
+    % watcher --dir . -- osascript -e 'tell application "Google Chrome" to reload active tab of window 1'
+
+        --dir=.     Diretory to watch.
+        -h --help   show this help
+
+=head1 DESCRIPTION
+
+This command watches the directory updates, and run the commands.
+
+=head1 AUTHOR
+
+Tokuhiro Matsuno E<lt>tokuhirom AAJKLFJEF GMAIL COME<gt>
+
+=head1 SEE ALSO
+
+L<Filesys::Notify::Simple>
+
+=head1 LICENSE
+
+Copyright (C) Tokuhiro Matsuno
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
