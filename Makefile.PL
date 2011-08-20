@@ -2,7 +2,7 @@ use inc::Module::Install;
 use Module::Install::AuthorTests;
 
 name 'App-watcher';
-all_from 'lib/App/watcher.pm';
+all_from 'bin/watcher';
 
 requires 'Filesys::Notify::Simple';
 

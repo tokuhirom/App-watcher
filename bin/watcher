@@ -4,13 +4,22 @@ use warnings;
 use Getopt::Long;
 use Filesys::Notify::Simple;
 use Pod::Usage;
+use 5.008008;
+
+our $VERSION='0.01';
 
 my @dir;
+my $signal='TERM';
 GetOptions(
-    'dir=s@' => \@dir,
-    'h|help' => \my $help,
+    'dir=s@'   => \@dir,
+    'signal=s' => \$signal,
+    'send_only' => \my $send_only,
+    'h|help'   => \my $help,
+    'v|version' => \my $version,
 ) or pod2usage;
+$version and do { print "watcher: $VERSION\n"; exit 0 };
 pod2usage(1) if $help;
+pod2usage(1) unless @ARGV;
 @dir = ('.') unless @dir;
 
 sub info {
@@ -28,8 +37,6 @@ sub info {
 my $pid;
 
 sub fork_and_start {
-    my ( $server ) = @_;
-
     undef $pid;
     $pid = fork;
     die "Can't fork: $!" unless defined $pid;
@@ -43,15 +50,20 @@ sub fork_and_start {
 sub kill_pid {
     $pid or return;
 
-    info("Killing the existing server (pid:$pid)");
+    info("Killing the existing process by $signal (pid:$pid)");
 
-    kill 'TERM' => $pid;
+    kill $signal => $pid;
     waitpid( $pid, 0 );
+}
+
+sub send_signal {
+    info("Sending $signal to the existing process (pid:$pid)");
+    kill $signal => $pid;
 }
 
 info("watching: @dir");
 fork_and_start();
-return unless $pid;
+exit(0) unless $pid;
 
 my $watcher = Filesys::Notify::Simple->new(\@dir);
 while(1) {
@@ -64,10 +76,16 @@ while(1) {
     next unless @restart;
 
     info("-- $_") for @restart;
-    kill_pid();
-    info("Successfully killed! Restarting the new server process.");
-    fork_and_start();
-    exit(0) unless $pid;
+    if ($send_only) {
+        send_signal();
+    } else {
+        kill_pid();
+        info("Successfully killed! Restarting the new process.");
+        fork_and_start();
+        unless ($pid) {
+            exit(0);
+        }
+    }
 }
 
 sub valid_file {
@@ -87,12 +105,22 @@ watcher - watch the file updates
 
     % watcher --dir . -- osascript -e 'tell application "Google Chrome" to reload active tab of window 1'
 
-        --dir=.     Diretory to watch.
-        -h --help   show this help
+        --dir=.      Diretory to watch.
+        --signal=HUP Sending signal to restart(Default: TERM)(EXPERIMENTAL)
+        --send_only  Sending signal without fork/exec(EXPERIMENTAL)
+        -h --help    show this help
 
 =head1 DESCRIPTION
 
 This command watches the directory updates, and run the commands.
+
+=head1 Sending SIGHUP without restart process
+
+(EXPERIMENTAL)
+
+watcher can send SIGHUP without process restarting.
+
+    % watcher --signal=HUP --send_only -- ...
 
 =head1 AUTHOR
 
