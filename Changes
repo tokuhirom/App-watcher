@@ -1,5 +1,15 @@
 Revision history for Perl extension App::watcher
 
+0.05
+
+    - win32 patch(mattn)
+
+0.04
+
+    - added experimental --signal=s option(suggested by kazeburo++)
+    - added experimental --send_only option
+    - added test cases(in xt/)
+
 0.03
 
     - rewrite code...

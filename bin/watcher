@@ -6,10 +6,11 @@ use Filesys::Notify::Simple;
 use Pod::Usage;
 use 5.008008;
 
-our $VERSION='0.01';
+our $VERSION='0.05';
 
 my @dir;
-my $signal='TERM';
+# process does not die when received SIGTERM, on win32.
+my $signal=$^O eq 'MSWin32' ? 'KILL' : 'TERM';
 GetOptions(
     'dir=s@'   => \@dir,
     'signal=s' => \$signal,
