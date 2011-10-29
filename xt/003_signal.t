@@ -5,6 +5,8 @@ use Test::More;
 use File::Temp qw(tempdir);
 use Time::HiRes qw(time);
 
+plan skip_all => 'There is no RELEASE_TESTING tag' unless $ENV{RELEASE_TESTING};
+
 my $tmpdir = tempdir(CLEANUP => 0);
 my $tmpdir2 = tempdir(CLEANUP => 0);
 
