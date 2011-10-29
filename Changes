@@ -1,5 +1,9 @@
 Revision history for Perl extension App::watcher
 
+0.07
+
+    - re-packaging
+
 0.06
 
     - ignore *_flymake.t(issm++)
