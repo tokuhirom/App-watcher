@@ -35,18 +35,19 @@ if ($pid==0) { # child
 } else { # parent
 	sleep 1;
 
-	like(read_file(), qr{^XXX \d+\n$});
+	like(read_file(), qr{^XXX \d+\n$}, 'first');
 	update();
 	sleep 2;
 
-	like(read_file(), qr{^XXX \d+\nHUP \d+\n$});
+	like(read_file(), qr{^XXX \d+\nHUP \d+\n$}, 'HUP');
 	update();
 	sleep 2;
 
-	like(read_file(), qr{^XXX \d+\nHUP \d+\nHUP \d+\n$});
+	like(read_file(), qr{^XXX \d+\nHUP \d+\nHUP \d+\n$}, 'HUP');
 
 	kill 'TERM' => $pid;
 	waitpid($pid, 0);
+    ok(1, 'done');
 }
 
 done_testing;
