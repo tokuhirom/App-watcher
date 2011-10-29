@@ -1,6 +1,7 @@
 package App::watcher;
 use strict;
 use warnings;
+use 5.008008;
 1;
 __END__
 
