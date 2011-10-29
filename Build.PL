@@ -16,6 +16,7 @@ my $build = Module::Build->new(
     name                 => 'App-watcher',
     module_name          => 'App::watcher',
     dist_version_from    => 'bin/watcher',
+    script_files         => ['bin/watcher'],
 
     test_files => ( -d '.git' || $ENV{RELEASE_TESTING} ) ? 't/ xt/' : 't/',
 
