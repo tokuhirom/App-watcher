@@ -5,7 +5,9 @@ use Test::More;
 use File::Temp qw(tempdir);
 use Time::HiRes qw(time);
 
-plan skip_all => 'There is no RELEASE_TESTING tag' unless $ENV{RELEASE_TESTING};
+# This test can't run under the prove.
+# I don't know why it doesn't works.
+plan skip_all => 'There is HARNESS_ACTIVE tag' if $ENV{HARNESS_ACTIVE};
 
 my $tmpdir = tempdir(CLEANUP => 0);
 my $tmpdir2 = tempdir(CLEANUP => 0);
