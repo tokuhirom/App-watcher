@@ -27,3 +27,11 @@ perltidy.ERR$
 ^README.pod$
 ^tags$
 \.bak$
+^[^/]+\.gz$
+^README.mkdn$
+^MYMETA\.
+\b_build
+^MANIFEST\.SKIP
+\b\.gitignore
+^inc/
+^App-watcher-

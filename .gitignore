@@ -12,3 +12,8 @@ tags
 META.yml
 blib/
 pm_to_blib
+MYMETA.*
+META.json
+README
+^inc/
+App-watcher-*/

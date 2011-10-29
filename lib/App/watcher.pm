@@ -16,7 +16,7 @@ See L<watcher>
 
 =head1 AUTHOR
 
-Tokuhiro Matsuno E<lt>tokuhirom AAJKLFJEF GMAIL COME<gt>
+Tokuhiro Matsuno E<lt>tokuhirom AAJKLFJEF@ GMAIL COME<gt>
 
 =head1 LICENSE
 
