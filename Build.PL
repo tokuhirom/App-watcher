@@ -10,6 +10,7 @@ my $build = Module::Build->new(
     configure_requires   => { 'Module::Build' => '0.38' },
     requires             => {
         'Filesys::Notify::Simple' => '0',
+        perl                      => '5.008008',
         ($^O eq 'linux' ? ('Linux::Inotify2' => 0) : ()),
     },
     no_index             => { 'directory' => [ 't', 'inc' ] },
