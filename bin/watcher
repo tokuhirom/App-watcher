@@ -44,6 +44,7 @@ sub fork_and_start {
     die "Can't fork: $!" unless defined $pid;
 
     if ( $pid == 0 ) {      # child
+        $SIG{INT} = $SIG{HUP} = $SIG{TERM} = 'DEFAULT';
         exec @ARGV;
         die "Cannot exec: @ARGV";
     } else {
