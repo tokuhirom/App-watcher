@@ -46,6 +46,8 @@ sub fork_and_start {
     if ( $pid == 0 ) {      # child
         exec @ARGV;
         die "Cannot exec: @ARGV";
+    } else {
+        info("Forked process: @ARGV");
     }
 }
 
@@ -67,8 +69,16 @@ info("watching: @dir");
 fork_and_start();
 exit(0) unless $pid;
 
+my $TERM = 0;
+for my $sig (qw(TERM HUP INT)) {
+    $SIG{$sig} = sub {
+        info("SIG$sig resieved");
+        $TERM=1;
+    };
+}
+
 my $watcher = Filesys::Notify::Simple->new(\@dir);
-while(1) {
+while(!$TERM) {
     my @restart;
     $watcher->wait(sub {
         my @events = @_;
@@ -89,6 +99,12 @@ while(1) {
         }
     }
 }
+if ($pid) {
+    info("Terminate process: $pid");
+    kill 'TERM' => $pid;
+    waitpid( $pid, 0 );
+}
+exit 0;
 
 sub valid_file {
     my ($file) = @_;
