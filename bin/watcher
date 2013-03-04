@@ -13,16 +13,19 @@ my @dir;
 # process does not die when received SIGTERM, on win32.
 my $signal=$^O eq 'MSWin32' ? 'KILL' : 'TERM';
 GetOptions(
-    'dir=s@'   => \@dir,
-    'signal=s' => \$signal,
-    'send_only' => \my $send_only,
-    'h|help'   => \my $help,
-    'v|version' => \my $version,
+    'dir=s@'       => \@dir,
+    'signal=s'     => \$signal,
+    'send_only'    => \my $send_only,
+    'h|help'       => \my $help,
+    'e|exclude=s@' => \my @exclude,
+    'v|version'    => \my $version,
 ) or pod2usage;
 $version and do { print "watcher: $VERSION\n"; exit 0 };
 pod2usage(1) if $help;
 pod2usage(1) unless @ARGV;
 @dir = ('.') unless @dir;
+
+my $exclude_regex = join '|', @exclude;
 
 sub info {
     my ( $sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst ) =
@@ -84,6 +87,7 @@ while(!$TERM) {
     $watcher->wait(sub {
         my @events = @_;
            @events = grep { valid_file($_) } map { $_->{path} } @events;
+           @events = grep { !/$exclude_regex/ } @events if $exclude_regex;
         @restart = @events;
     });
     next unless @restart;
@@ -124,10 +128,11 @@ watcher - watch the file updates
 
     % watcher --dir . -- osascript -e 'tell application "Google Chrome" to reload active tab of window 1'
 
-        --dir=.      Diretory to watch.
-        --signal=HUP Sending signal to restart(Default: TERM)(EXPERIMENTAL)
-        --send_only  Sending signal without fork/exec(EXPERIMENTAL)
-        -h --help    show this help
+        --dir=.         Directory to watch.
+        --signal=HUP    Sending signal to restart(Default: TERM)(EXPERIMENTAL)
+        --send_only     Sending signal without fork/exec(EXPERIMENTAL)
+        --exclude=file  Exclude filename(EXPERIMENTAL)
+        -h --help       Show this help
 
 =head1 DESCRIPTION
 
