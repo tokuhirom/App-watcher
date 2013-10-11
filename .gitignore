@@ -13,7 +13,13 @@ META.yml
 blib/
 pm_to_blib
 MYMETA.*
-META.json
 README
 ^inc/
 App-watcher-*/
+/App-watcher-*
+/.build
+/_build_params
+/Build
+!Build/
+!META.json
+!LICENSE

@@ -1,0 +1,74 @@
+{
+   "abstract" : "watch the file updates",
+   "author" : [
+      "Tokuhiro Matsuno <tokuhirom AAJKLFJEF@ GMAIL COM>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Minilla/v0.7.0, CPAN::Meta::Converter version 2.132510",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "App-watcher",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "xt",
+         "inc",
+         "share",
+         "eg",
+         "examples",
+         "author"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::More" : "0.98"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "CPAN::Meta" : "0",
+            "CPAN::Meta::Prereqs" : "0",
+            "Module::Build" : "0.38"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "Test::CPAN::Meta" : "0",
+            "Test::MinimumVersion" : "0.10108",
+            "Test::Pod" : "1.41",
+            "Test::Spellunker" : "v0.2.7"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Filesys::Notify::Simple" : "0",
+            "Linux::Inotify2" : "0",
+            "perl" : "5.008008"
+         }
+      }
+   },
+   "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/tokuhirom/App-watcher/issues"
+      },
+      "homepage" : "https://github.com/tokuhirom/App-watcher",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/tokuhirom/App-watcher.git",
+         "web" : "https://github.com/tokuhirom/App-watcher"
+      }
+   },
+   "version" : "0.08",
+   "x_contributors" : [
+      "issm <issmxx@gmail.com>",
+      "Neil Bowers <neil@bowers.com>",
+      "tokuhirom <tokuhirom@gmail.com>"
+   ]
+}
