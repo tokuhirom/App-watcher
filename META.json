@@ -47,9 +47,11 @@
          }
       },
       "runtime" : {
+         "recommends" : {
+            "Linux::Inotify2" : "0"
+         },
          "requires" : {
             "Filesys::Notify::Simple" : "0",
-            "Linux::Inotify2" : "0",
             "perl" : "5.008008"
          }
       }
