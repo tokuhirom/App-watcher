@@ -4,7 +4,7 @@ watcher - watch the file updates
 
 # DESCRIPTION
 
-See [watcher](http://search.cpan.org/perldoc?watcher)
+See [watcher](https://metacpan.org/pod/watcher)
 
 # AUTHOR
 

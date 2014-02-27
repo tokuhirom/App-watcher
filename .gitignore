@@ -23,3 +23,4 @@ App-watcher-*/
 !Build/
 !META.json
 !LICENSE
+/Build.bat
