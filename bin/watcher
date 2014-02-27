@@ -70,16 +70,15 @@ info("watching: @dir");
 fork_and_start();
 exit(0) unless $pid;
 
-my $TERM = 0;
 for my $sig (qw(TERM HUP INT)) {
     $SIG{$sig} = sub {
         info("SIG$sig received");
-        $TERM=1;
+        finalize();
     };
 }
 
 my $watcher = Filesys::Notify::Simple->new(\@dir);
-while(!$TERM) {
+while (1) {
     my @restart;
     $watcher->wait(sub {
         my @events = @_;
@@ -100,12 +99,17 @@ while(!$TERM) {
         }
     }
 }
-if ($pid) {
-    info("Terminate process: $pid");
-    kill 'TERM' => $pid;
-    waitpid( $pid, 0 );
+
+sub finalize {
+    my $self = shift;
+
+    if ($pid) {
+        info("Terminate process: $pid");
+        kill 'TERM' => $pid;
+        waitpid( $pid, 0 );
+    }
+    exit 0;
 }
-exit 0;
 
 sub valid_file {
     my ($file) = @_;
