@@ -1,5 +1,12 @@
 Revision history for Perl module App::watcher
 
+{{$NEXT}}
+
+0.09 2014-02-27T03:51:19Z
+
+    - Terminate correctly on OSX
+      (reported by gfx++)
+
 0.08 2012-01-09
 
     - Terminate child process if SIGHUP/SIGTERM/SIGINT received.
