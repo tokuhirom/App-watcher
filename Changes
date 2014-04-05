@@ -2,6 +2,10 @@ Revision history for Perl module App::watcher
 
 {{$NEXT}}
 
+0.10 2014-04-05T00:22:31Z
+
+    - Fixed dependencies
+
 0.09 2014-02-27T03:51:19Z
 
     - Terminate correctly on OSX
