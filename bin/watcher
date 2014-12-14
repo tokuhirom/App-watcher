@@ -114,7 +114,7 @@ sub finalize {
 
 sub valid_file {
     my ($file) = @_;
-    File::Spec->abs2rel($file) !~ m!^\.|[/\\][\._]|\.bak$|~$|_flymake\.(?:p[lm]|t)!;
+    File::Spec->abs2rel($file) !~ m!^\.[^\.]|[/\\][\._][^\.]|\.bak$|~$|_flymake\.(?:p[lm]|t)!;
 }
 
 __END__
