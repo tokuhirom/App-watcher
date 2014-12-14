@@ -4,6 +4,7 @@ use warnings;
 use Getopt::Long;
 use Filesys::Notify::Simple;
 use Pod::Usage;
+use File::Spec;
 use App::watcher;
 use 5.008008;
 
@@ -113,7 +114,7 @@ sub finalize {
 
 sub valid_file {
     my ($file) = @_;
-    $file !~ m![/\\][\._]|\.bak$|~$|_flymake\.(?:p[lm]|t)!;
+    File::Spec->abs2rel($file) !~ m!^\.|[/\\][\._]|\.bak$|~$|_flymake\.(?:p[lm]|t)!;
 }
 
 __END__
