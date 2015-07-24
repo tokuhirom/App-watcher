@@ -132,7 +132,7 @@ sub valid_file {
         return not grep { index($rel, $_) == 0 } @exclude_dir;
     }
 
-    1;
+    return 1;
 }
 
 __END__
