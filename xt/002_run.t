@@ -10,13 +10,13 @@ my $tmpdir2 = tempdir(CLEANUP => 0);
 
 $ENV{TMPDIR2} = $tmpdir2;
 
-my @cmd = ($^X, 'bin/watcher', "--dir=$tmpdir", '--', $^X, '-e', q[
+my @cmd = ($^X, 'script/watcher', "--dir=$tmpdir", '--', $^X, '-e', q[
 	warn "GO $$";
 	open my $fh, '>>', "$ENV{TMPDIR2}/x.txt" or die $!;
 	print {$fh} "XXX\n";
 	warn "WROTE $$";
 	]);
-# my @cmd = ($^X, 'bin/watcher', "--dir=$tmpdir", '--', $^X, '-e', q[warn "GO"; open my $fh, '>>', "$ENV{TEMPDIR2}/x.txt" or die $!"; print {$fh} q!XXX\n!;]);
+# my @cmd = ($^X, 'script/watcher', "--dir=$tmpdir", '--', $^X, '-e', q[warn "GO"; open my $fh, '>>', "$ENV{TEMPDIR2}/x.txt" or die $!"; print {$fh} q!XXX\n!;]);
 note "@cmd";
 
 my $pid = fork();

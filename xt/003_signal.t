@@ -14,7 +14,7 @@ my $tmpdir2 = tempdir(CLEANUP => 0);
 
 $ENV{TMPDIR2} = $tmpdir2;
 
-my @cmd = ($^X, 'bin/watcher', "--dir=$tmpdir", '--send_only', '--signal=HUP', '--', $^X, '-e', q[
+my @cmd = ($^X, 'script/watcher', "--dir=$tmpdir", '--send_only', '--signal=HUP', '--', $^X, '-e', q[
 	warn "GO";
 	open my $fh, '>>', "$ENV{TMPDIR2}/x.txt" or die $!;
 	select $fh; $|++; select STDOUT;
