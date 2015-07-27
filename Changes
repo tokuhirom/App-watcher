@@ -2,6 +2,11 @@ Revision history for Perl module App::watcher
 
 {{$NEXT}}
 
+0.11 2015-07-27T03:00:25Z
+
+    - added --execlude option
+      (wenjun.yan)
+
 0.10 2014-04-05T00:22:31Z
 
     - Fixed dependencies
