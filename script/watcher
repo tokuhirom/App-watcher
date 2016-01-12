@@ -147,8 +147,8 @@ watcher - watch the file updates
 
     % watcher --dir . -- osascript -e 'tell application "Google Chrome" to reload active tab of window 1'
 
-        --dir=.      Diretory to watch.
-        --exclude    Diretory to ignore.
+        --dir=.      Directory to watch.
+        --exclude    Directory to ignore.
         --signal=HUP Sending signal to restart(Default: TERM)(EXPERIMENTAL)
         --send_only  Sending signal without fork/exec(EXPERIMENTAL)
         -h --help    show this help
